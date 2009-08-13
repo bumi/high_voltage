@@ -51,6 +51,29 @@ Don't forget to add the new route:
       :controller => 'pages',
       :only       => [:show]
 
+
+Store Content in your database
+-------
+
+This plugin comes with a simple ActiveRecord model to store content for your static pages in the database. - just a simple model not more! (no admin interface etc.)
+
+First create your migration:
+
+    script/generate high_voltage
+
+Edit the generated migration file if you need other columns than "title", "body" and "permalink".
+
+Now create your pages using the HighVoltage::Page model:
+
+    HighVoltage::Page.crate(:title => "Hello world", :body => "Danger! Danger!")
+
+When you now visit /pages/hello-world the plugin will search in the databese for your page using the permalink and render the show tempalte.
+
+*Note:*
+You can overwrite the HighVoltage::Page model if you need to. 
+To customize the template just add a "show" template to your app/views/pages folder.
+
+
 Testing
 -------
 
