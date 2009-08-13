@@ -65,7 +65,7 @@ Edit the generated migration file if you need other columns than "title", "body"
 
 Now create your pages using the HighVoltage::Page model:
 
-    HighVoltage::Page.crate(:title => "Hello world", :body => "Danger! Danger!")
+    HighVoltage::Page.create(:title => "Hello world", :body => "Danger! Danger!")
 
 When you now visit /pages/hello-world the plugin will search in the databese for your page using the permalink and render the show tempalte.
 
