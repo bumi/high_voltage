@@ -9,16 +9,24 @@ class HighVoltage::PagesController < ApplicationController
   protected
 
   def ensure_valid
-    unless template_exists?(current_page)
+    if !template_exists? && !db_entry_exists?
       render :nothing => true, :status => 404 and return false
     end
   end
 
   def current_page
-    "pages/#{params[:id].to_s.downcase}"
+    "pages/#{db_entry_exists? ? 'show' : page_name}"
+  end
+  
+  def page_name
+    params[:id].to_s.downcase
+  end
+  
+  def db_entry_exists?(page_name=page_name)
+    !(@page ||= HighVoltage::Page.find_by_permalink(page_name)).nil?
   end
 
-  def template_exists?(path)
+  def template_exists?(path=current_page)
     view_paths.find_template(path, response.template.template_format)
   rescue ActionView::MissingTemplate
     false

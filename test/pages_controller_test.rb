@@ -4,13 +4,15 @@ class ApplicationController < ActionController::Base
 end
 
 require "high_voltage/pages_controller"
+require "high_voltage/page"
 require File.join(File.dirname(__FILE__), '..', 'config', 'high_voltage_routes')
 
 class HighVoltage::PagesControllerTest < ActionController::TestCase
 
   HighVoltage::PagesController.view_paths << "/tmp"
+  HighVoltage::PagesController.view_paths << File.join(File.dirname(__FILE__), '..', 'app', 'views')
 
-  context "on GET to a page that exists" do
+  context "on GET to a page that exists as file" do
     setup do
       @filename = '/tmp/pages/exists.html.erb'
 
@@ -34,6 +36,16 @@ class HighVoltage::PagesControllerTest < ActionController::TestCase
         puts "Error while removing files: #{e}"
       end
     end
+  end
+  
+  context "on GET to a page that exists in the DB" do
+    setup do 
+      page = HighVoltage::Page.create(:title => "hello world", :body => "high voltage!")
+      get :show, :id => page.to_param
+    end
+    
+    should_respond_with :success
+    should_render_template 'show'
   end
 
   context "on GET to /pages/invalid" do
