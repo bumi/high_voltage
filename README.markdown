@@ -13,7 +13,7 @@ Yeah, like "About us", "Directions", marketing pages, etc.
 Installation
 ------------
 
-    script/plugin install git://github.com/thoughtbot/high_voltage.git
+    script/plugin install git://github.com/bumi/high_voltage.git
 
 Usage
 -----
